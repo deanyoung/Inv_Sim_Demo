@@ -5,7 +5,7 @@ library(ggplot2)
 library(googlesheets)
 
 type <- "monthly"
-period <- 5
+period <- 1
 count <- 0
 port.value <- 100
 decisions <- c()
