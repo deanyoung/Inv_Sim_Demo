@@ -3,3 +3,7 @@
 8/24/15 - added GoogleSheets compatibility. Results are now saved in Google Sheets (Experiment_Data). Further testing may be needed.
 
 8/28/15 - reauthenticated GoogleSheets access. Uploaded to shinyapps.io
+
+9/2/15 - Changed code to loop through periods
+
+9/4/15 - uploaded to Github
