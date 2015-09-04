@@ -1,0 +1,5 @@
+8/19/15 - added % labels to bar chart. Removed existing text in "name" and "id number" fields.
+
+8/24/15 - added GoogleSheets compatibility. Results are now saved in Google Sheets (Experiment_Data). Further testing may be needed.
+
+8/28/15 - reauthenticated GoogleSheets access. Uploaded to shinyapps.io
