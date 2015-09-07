@@ -26,8 +26,9 @@ shinyServer(function(input, output) {
       output$selectwarn <- renderText({""})
     if(count == max){
       final.choice <<- as.numeric(input$select)
-      port.value <<- port.value * exp(-max*.10)
-      final.port.value <<- port.value
+      
+      #final.port.value <<- port.value
+      final.port.value <<- real.port.value
 
       
       for(i in 1:400){
@@ -43,8 +44,6 @@ shinyServer(function(input, output) {
       final.decisions <<- decisions
       final.results <<- c(input$name,input$id,type,final.choice,final.port.value) %>% append(final.decisions)
       final.results <<- as.matrix(t(final.results))
-      #write.table(final.results,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,sep=",",
-       #           file="//afs/reed.edu/user/y/o/youngde/Private/Thesis\ UI\ and\ Data/Thesis")
       saveData(final.results)
       output$done <- renderText({
         "Congratulations, you have finished. Final results will not be available until the conclusion of all experiments."
@@ -66,53 +65,59 @@ shinyServer(function(input, output) {
       decisions <<- append(decisions, as.numeric(input$select))
       if(period > 1){for(i in 1:(period-1)){decisions<<-append(decisions,NA)}}
       
-      #port.change <<- c(0,0)
+      port.change <<- c(0,0)
       
       for(i in (count+1):(count+period)){
       port.split <- isolate(c(as.numeric(input$select), (1-as.numeric(input$select))) * port.value)
+      real.port.split <- isolate(c(as.numeric(input$select), (1-as.numeric(input$select))) * real.port.value)
       
       s <- s.returns[i]
       b <- b.returns[i]
 
-      s <- s + .1
-      b <- b + .1
-      port.split.new <- port.split * exp(c(s,b))
-      #port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
+#       port.split.new <- port.split * exp(c(s,b))
+#       port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
+      port.split.new <- port.split * exp(c(s,b)+.1)
+      port.change <<- port.change + port.split * c(exp(s)-1+.1,exp(b)-1+.1)
+      
+      real.port.split.new <- real.port.split * exp(c(s,b))
+      
+      
       port.value <<- port.split.new[1] + port.split.new[2]
+      real.port.value <<- real.port.split.new[1] + real.port.split.new[2]
       }
       
       
-     #s.avg <- sum(s.returns[(count+1):(count+period)])
-     #b.avg <- sum(b.returns[(count+1):(count+period)])
-     s.avg <- sum(s.returns[(count+1):(count+period)]+.1)
-     b.avg <- sum(b.returns[(count+1):(count+period)]+.1)
-      performance.data <<- as.data.frame(matrix(c("A","B",(exp(s.avg/period)-1)*100, (exp(b.avg/period)-1)*100),2)) %>%
+     #s.avg <- prod(exp(s.returns[(count+1):(count+period)]))^(1/period)
+     #b.avg <- prod(exp(b.returns[(count+1):(count+period)]))^(1/period)
+     s.avg <- prod(exp(s.returns[(count+1):(count+period)]+.1))^(1/period)
+     b.avg <- prod(exp(b.returns[(count+1):(count+period)]+.1))^(1/period)
+      performance.data <<- as.data.frame(matrix(c("A","B",(s.avg-1)*100, (b.avg-1)*100),2)) %>%
                                         mutate(V2 = as.numeric(as.character(V2)),sign=ifelse(V2<0,"neg","pos"))
       
     #output$loss <- if(port.change[1]<0){ renderText({"Warning: Portfolio Loss from Allocation to Fund A"})} else{renderText({""})}
                             
       
-#     output$display <- DT::renderDataTable({
-#       
-#       display <<- matrix(c(round(port.value,2),round(port.change[1],2),round(port.change[2],2),
-#                            exp(s/period)-1,exp(b/period)-1),1)
-#       
-#       colnames(display) <<- c("Current Portfolio Value", 
-#                  "Fund A Portfolio Gain/Loss",
-#                  "Fund B Portfolio Gain/Loss",
-#                  "Fund A Average Return", 
-#                  "Fund B Average Return")
-#                                                                                                
-#       count <<- count + period
-#       
-#      
-#      datatable(display, options = list(dom = 't')) %>% 
-#        formatCurrency(c("Current Portfolio Value", "Fund A Portfolio Gain/Loss", 
-#                         "Fund B Portfolio Gain/Loss")) %>% 
-#        formatPercentage(c("Fund A Average Return", 
-#                           "Fund B Average Return"),2)
-#       
-#     })
+    output$display <- DT::renderDataTable({
+      
+      display <<- matrix(c(round(port.value,2),round(port.change[1],2),round(port.change[2],2),
+                           s.avg-1,b.avg-1),1)
+      
+      colnames(display) <<- c("Current Portfolio Value", 
+                 "Fund A Portfolio Gain/Loss",
+                 "Fund B Portfolio Gain/Loss",
+                 "Fund A Average Return", 
+                 "Fund B Average Return")
+                                                                                               
+      count <<- count + period
+      
+     
+     datatable(display, options = list(dom = 't')) %>% 
+       formatCurrency(c("Current Portfolio Value", "Fund A Portfolio Gain/Loss", 
+                        "Fund B Portfolio Gain/Loss")) %>% 
+       formatPercentage(c("Fund A Average Return", 
+                          "Fund B Average Return"),2)
+      
+    })
     
   
    output$period <- renderText({
@@ -131,9 +136,6 @@ shinyServer(function(input, output) {
        
    })
    
-   
-  count <<- count + period
- 
    
     }
                                   

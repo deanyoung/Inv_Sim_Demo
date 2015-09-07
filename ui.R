@@ -21,7 +21,7 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-        # DT::dataTableOutput("display"),
+        DT::dataTableOutput("display"),
         #div(h4(strong(textOutput("loss"))),style="color:red"),
         plotOutput("graph"),
         textOutput("period"),
