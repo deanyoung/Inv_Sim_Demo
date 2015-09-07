@@ -5,12 +5,12 @@ library(ggplot2)
 library(googlesheets)
 
 type <- "monthly"
-period <- 1
+period <- 50
 count <- 0
 port.value <- 100
 decisions <- c()
 port.change <-c(0,0)
-max <- 10
+max <- 200
 
 returns.data <- read.csv("returns.csv",header=FALSE)
 s.returns <- slice(returns.data,1) %>% as.matrix()

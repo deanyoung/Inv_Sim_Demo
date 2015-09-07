@@ -66,7 +66,7 @@ shinyServer(function(input, output) {
       decisions <<- append(decisions, as.numeric(input$select))
       if(period > 1){for(i in 1:(period-1)){decisions<<-append(decisions,NA)}}
       
-      port.change <<- c(0,0)
+      #port.change <<- c(0,0)
       
       for(i in (count+1):(count+period)){
       port.split <- isolate(c(as.numeric(input$select), (1-as.numeric(input$select))) * port.value)
@@ -77,7 +77,7 @@ shinyServer(function(input, output) {
       s <- s + .1
       b <- b + .1
       port.split.new <- port.split * exp(c(s,b))
-      port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
+      #port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
       port.value <<- port.split.new[1] + port.split.new[2]
       }
       
@@ -92,27 +92,27 @@ shinyServer(function(input, output) {
     #output$loss <- if(port.change[1]<0){ renderText({"Warning: Portfolio Loss from Allocation to Fund A"})} else{renderText({""})}
                             
       
-    output$display <- DT::renderDataTable({
-      
-      display <<- matrix(c(round(port.value,2),round(port.change[1],2),round(port.change[2],2),
-                           exp(s/period)-1,exp(b/period)-1),1)
-      
-      colnames(display) <<- c("Current Portfolio Value", 
-                 "Fund A Portfolio Gain/Loss",
-                 "Fund B Portfolio Gain/Loss",
-                 "Fund A Average Return", 
-                 "Fund B Average Return")
-                                                                                               
-      count <<- count + period
-      
-     
-     datatable(display, options = list(dom = 't')) %>% 
-       formatCurrency(c("Current Portfolio Value", "Fund A Portfolio Gain/Loss", 
-                        "Fund B Portfolio Gain/Loss")) %>% 
-       formatPercentage(c("Fund A Average Return", 
-                          "Fund B Average Return"),2)
-      
-    })
+#     output$display <- DT::renderDataTable({
+#       
+#       display <<- matrix(c(round(port.value,2),round(port.change[1],2),round(port.change[2],2),
+#                            exp(s/period)-1,exp(b/period)-1),1)
+#       
+#       colnames(display) <<- c("Current Portfolio Value", 
+#                  "Fund A Portfolio Gain/Loss",
+#                  "Fund B Portfolio Gain/Loss",
+#                  "Fund A Average Return", 
+#                  "Fund B Average Return")
+#                                                                                                
+#       count <<- count + period
+#       
+#      
+#      datatable(display, options = list(dom = 't')) %>% 
+#        formatCurrency(c("Current Portfolio Value", "Fund A Portfolio Gain/Loss", 
+#                         "Fund B Portfolio Gain/Loss")) %>% 
+#        formatPercentage(c("Fund A Average Return", 
+#                           "Fund B Average Return"),2)
+#       
+#     })
     
   
    output$period <- renderText({
@@ -130,7 +130,9 @@ shinyServer(function(input, output) {
        ggtitle(paste("Average Return for Both Funds from Last",period,"Period(s)."))
        
    })
-
+   
+   
+  count <<- count + period
  
    
     }
