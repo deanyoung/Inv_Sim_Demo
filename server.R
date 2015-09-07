@@ -66,23 +66,26 @@ shinyServer(function(input, output) {
       decisions <<- append(decisions, as.numeric(input$select))
       if(period > 1){for(i in 1:(period-1)){decisions<<-append(decisions,NA)}}
       
+      port.change <<- c(0,0)
+      
       for(i in (count+1):(count+period)){
       port.split <- isolate(c(as.numeric(input$select), (1-as.numeric(input$select))) * port.value)
       
       s <- s.returns[i]
       b <- b.returns[i]
 
-      #s <- s + .1
-      #b <- b + .1
+      s <- s + .1
+      b <- b + .1
       port.split.new <- port.split * exp(c(s,b))
-      port.change <<- port.split * c(exp(s)-1,exp(b)-1)
+      port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
       port.value <<- port.split.new[1] + port.split.new[2]
       }
       
-     s.avg <- sum(s.returns[(count+1):(count+period)])
-     b.avg <- sum(b.returns[(count+1):(count+period)])
-     #s.avg <- sum(s.returns[(count+1):(count+period)]+.1)
-     #b.avg <- sum(b.returns[(count+1):(count+period)]+.1)
+      
+     #s.avg <- sum(s.returns[(count+1):(count+period)])
+     #b.avg <- sum(b.returns[(count+1):(count+period)])
+     s.avg <- sum(s.returns[(count+1):(count+period)]+.1)
+     b.avg <- sum(b.returns[(count+1):(count+period)]+.1)
       performance.data <<- as.data.frame(matrix(c("A","B",(exp(s.avg/period)-1)*100, (exp(b.avg/period)-1)*100),2)) %>%
                                         mutate(V2 = as.numeric(as.character(V2)),sign=ifelse(V2<0,"neg","pos"))
       
@@ -95,19 +98,19 @@ shinyServer(function(input, output) {
                            exp(s/period)-1,exp(b/period)-1),1)
       
       colnames(display) <<- c("Current Portfolio Value", 
-                 "Last Period's Portfolio Gain/Loss from Fund A",
-                 "Last Period's Portfolio Gain/Loss from Fund B",
-                 "Last Period's Average Return for Fund A", 
-                 "Last Period's Average Return for Fund B")
+                 "Fund A Portfolio Gain/Loss",
+                 "Fund B Portfolio Gain/Loss",
+                 "Fund A Average Return", 
+                 "Fund B Average Return")
                                                                                                
       count <<- count + period
       
      
      datatable(display, options = list(dom = 't')) %>% 
-       formatCurrency(c("Current Portfolio Value", "Last Period's Portfolio Gain/Loss from Fund A", 
-                        "Last Period's Portfolio Gain/Loss from Fund B")) %>% 
-       formatPercentage(c("Last Period's Average Return for Fund A", 
-                          "Last Period's Average Return for Fund B"),2)
+       formatCurrency(c("Current Portfolio Value", "Fund A Portfolio Gain/Loss", 
+                        "Fund B Portfolio Gain/Loss")) %>% 
+       formatPercentage(c("Fund A Average Return", 
+                          "Fund B Average Return"),2)
       
     })
     
@@ -120,7 +123,7 @@ shinyServer(function(input, output) {
      ggplot(performance.data, aes(x=V1, y=V2)) + 
        geom_bar(stat="identity", aes(fill=sign)) + 
        guides(fill=FALSE) +
-       coord_cartesian(ylim = c(-13, 13)) + 
+       #coord_cartesian(ylim = c(-13, 13)) + 
        scale_fill_manual(values = c("neg"="red","pos"="green")) +
        geom_text(aes(label=sprintf("%.2f%%",round(V2,2)), vjust=1)) +
        xlab("Fund") + ylab("% Return") + 
