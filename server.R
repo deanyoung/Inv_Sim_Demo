@@ -9,7 +9,8 @@ shinyServer(function(input, output) {
     selectInput("select", label = h3("Select Portfolio Allocation"), 
                    choices = list("Please select a portfolio allocation"="n",
                      "100 - 0"=1,"90 - 10" = .9,"80 - 20"=.8,"70 - 30"=.7,"60 - 40"=.6,
-                                  "50 - 50"=.5,"40 - 60"=.4,"30 - 70"=.3,"20 - 80"=.2,"10 - 90"=.1,"0 - 100"=0))
+                                  "50 - 50"=.5,"40 - 60"=.4,"30 - 70"=.3,"20 - 80"=.2,"10 - 90"=.1,"0 - 100"=0), 
+                selectize=FALSE, size=12)
   })
   
   if(count == max){
