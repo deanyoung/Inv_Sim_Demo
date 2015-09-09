@@ -27,8 +27,6 @@ shinyServer(function(input, output) {
       output$selectwarn <- renderText({""})
     if(count == max){
       final.choice <<- as.numeric(input$select)
-      
-      #final.port.value <<- port.value
       final.port.value <<- real.port.value
 
       
@@ -77,21 +75,20 @@ shinyServer(function(input, output) {
 
 #       port.split.new <- port.split * exp(c(s,b))
 #       port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
-      port.split.new <- port.split * exp(c(s,b)+.1)
-      port.change <<- port.change + port.split * c(exp(s)-1+.1,exp(b)-1+.1)
+      port.split.new <- port.split * (exp(c(s,b))+.05)
+      port.change <<- port.change + port.split * (c(exp(s),exp(b))-1+.05)
       
       real.port.split.new <- real.port.split * exp(c(s,b))
-      
       
       port.value <<- port.split.new[1] + port.split.new[2]
       real.port.value <<- real.port.split.new[1] + real.port.split.new[2]
       }
       
       
-     #s.avg <- prod(exp(s.returns[(count+1):(count+period)]))^(1/period)
-     #b.avg <- prod(exp(b.returns[(count+1):(count+period)]))^(1/period)
-     s.avg <- prod(exp(s.returns[(count+1):(count+period)]+.1))^(1/period)
-     b.avg <- prod(exp(b.returns[(count+1):(count+period)]+.1))^(1/period)
+#      s.avg <- prod(exp(s.returns[(count+1):(count+period)]))^(1/period)
+#      b.avg <- prod(exp(b.returns[(count+1):(count+period)]))^(1/period)
+     s.avg <- prod(exp(s.returns[(count+1):(count+period)]+.05))^(1/period)
+     b.avg <- prod(exp(b.returns[(count+1):(count+period)]+.05))^(1/period)
       performance.data <<- as.data.frame(matrix(c("A","B",(s.avg-1)*100, (b.avg-1)*100),2)) %>%
                                         mutate(V2 = as.numeric(as.character(V2)),sign=ifelse(V2<0,"neg","pos"))
       

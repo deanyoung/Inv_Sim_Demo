@@ -11,7 +11,7 @@ port.value <- 100
 real.port.value <- 100
 decisions <- c()
 port.change <-c(0,0)
-max <- 10
+max <- 200
 
 returns.data <- read.csv("returns.csv",header=FALSE)
 s.returns <- slice(returns.data,1) %>% as.matrix()
