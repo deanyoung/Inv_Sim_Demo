@@ -7,3 +7,5 @@
 9/2/15 - Changed code to loop through periods
 
 9/4/15 - uploaded to Github
+
+9/21/15 - added timestamps for each user's decision to help gauge boredom

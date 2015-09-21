@@ -26,6 +26,8 @@ shinyServer(function(input, output) {
     else{
       output$selectwarn <- renderText({""})
     if(count == max){
+      
+      time.stamp <<- append(time.stamp,as.character(Sys.time()))
       final.choice <<- as.numeric(input$select)
       final.port.value <<- real.port.value
 
@@ -41,7 +43,8 @@ shinyServer(function(input, output) {
       
  
       final.decisions <<- decisions
-      final.results <<- c(input$name,input$id,type,final.choice,final.port.value) %>% append(final.decisions)
+      final.results <<- c(input$name,input$id,type,final.choice,final.port.value) %>% append(final.decisions) %>%
+                          append(time.stamp)
       final.results <<- as.matrix(t(final.results))
       saveData(final.results)
       output$done <- renderText({
@@ -52,7 +55,7 @@ shinyServer(function(input, output) {
     
     else if(count==""){}
     
-    else{
+    else{ 
       
       if(count == max-period){output$warn <- renderText({
         "Your final selection will be locked in for 400 periods. Please select carefully."
@@ -62,7 +65,12 @@ shinyServer(function(input, output) {
       }
      
       decisions <<- append(decisions, as.numeric(input$select))
-      if(period > 1){for(i in 1:(period-1)){decisions<<-append(decisions,NA)}}
+      time.stamp <<- append(time.stamp,as.character(Sys.time()))
+      
+      if(period > 1){for(i in 1:(period-1)){
+        decisions<<-append(decisions,NA) 
+        time.stamp <<- append(time.stamp,NA)
+      }}
       
       port.change <<- c(0,0)
       
@@ -133,6 +141,7 @@ shinyServer(function(input, output) {
        ggtitle(paste("Average Return for Both Funds from Last",period,"Period(s)."))
        
    })
+   
    
    
     }

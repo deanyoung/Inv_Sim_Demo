@@ -4,13 +4,14 @@ library(DT)
 library(ggplot2)
 library(googlesheets)
 
-type <- "monthly"
-period <- 1
+type <- 1
+period <- 200
 count <- 0
 port.value <- 100
 real.port.value <- 100
 decisions <- c()
 port.change <-c(0,0)
+time.stamp <- c()
 max <- 200
 
 returns.data <- read.csv("returns.csv",header=FALSE)
