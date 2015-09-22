@@ -105,24 +105,18 @@ shinyServer(function(input, output) {
       
     output$display <- DT::renderDataTable({
       
-      display <<- matrix(c(round(port.value,2),round(port.change[1],2),round(port.change[2],2),
-                           s.avg-1,b.avg-1),1)
+      display <<- matrix(c(round(port.value,2),round(port.change[1],2),round(port.change[2],2)),1)
       
       colnames(display) <<- c("Current Portfolio Value", 
                  "Fund A Portfolio Gain/Loss",
-                 "Fund B Portfolio Gain/Loss",
-                 "Fund A Average Return", 
-                 "Fund B Average Return")
+                 "Fund B Portfolio Gain/Loss")
                                                                                                
       count <<- count + period
       
      
      datatable(display, options = list(dom = 't')) %>% 
        formatCurrency(c("Current Portfolio Value", "Fund A Portfolio Gain/Loss", 
-                        "Fund B Portfolio Gain/Loss")) %>% 
-       formatPercentage(c("Fund A Average Return", 
-                          "Fund B Average Return"),2)
-      
+                        "Fund B Portfolio Gain/Loss"))
     })
     
   
