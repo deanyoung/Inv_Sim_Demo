@@ -81,10 +81,10 @@ shinyServer(function(input, output) {
       s <- s.returns[i]
       b <- b.returns[i]
 
-#       port.split.new <- port.split * exp(c(s,b))
-#       port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
-      port.split.new <- port.split * (exp(c(s,b))+.05)
-      port.change <<- port.change + port.split * (c(exp(s),exp(b))-1+.05)
+      port.split.new <- port.split * exp(c(s,b))
+      port.change <<- port.change + port.split * c(exp(s)-1,exp(b)-1)
+#       port.split.new <- port.split * (exp(c(s,b))+.05)
+#       port.change <<- port.change + port.split * (c(exp(s),exp(b))-1+.05)
       
       real.port.split.new <- real.port.split * exp(c(s,b))
       
@@ -93,10 +93,10 @@ shinyServer(function(input, output) {
       }
       
       
-#      s.avg <- prod(exp(s.returns[(count+1):(count+period)]))^(1/period)
-#      b.avg <- prod(exp(b.returns[(count+1):(count+period)]))^(1/period)
-     s.avg <- prod(exp(s.returns[(count+1):(count+period)]+.05))^(1/period)
-     b.avg <- prod(exp(b.returns[(count+1):(count+period)]+.05))^(1/period)
+     s.avg <- prod(exp(s.returns[(count+1):(count+period)]))^(1/period)
+     b.avg <- prod(exp(b.returns[(count+1):(count+period)]))^(1/period)
+#      s.avg <- prod(exp(s.returns[(count+1):(count+period)]+.05))^(1/period)
+#      b.avg <- prod(exp(b.returns[(count+1):(count+period)]+.05))^(1/period)
       performance.data <<- as.data.frame(matrix(c("A","B",(s.avg-1)*100, (b.avg-1)*100),2)) %>%
                                         mutate(V2 = as.numeric(as.character(V2)),sign=ifelse(V2<0,"neg","pos"))
       
@@ -134,7 +134,7 @@ shinyServer(function(input, output) {
      ggplot(performance.data, aes(x=V1, y=V2)) + 
        geom_bar(stat="identity", aes(fill=sign)) + 
        guides(fill=FALSE) +
-       #coord_cartesian(ylim = c(-13, 13)) + 
+       coord_cartesian(ylim = c(-13, 13)) + 
        scale_fill_manual(values = c("neg"="red","pos"="green")) +
        geom_text(aes(label=sprintf("%.2f%%",round(V2,2)), vjust=1)) +
        xlab("Fund") + ylab("% Return") + 
