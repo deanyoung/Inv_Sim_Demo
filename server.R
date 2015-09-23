@@ -58,7 +58,8 @@ shinyServer(function(input, output) {
     else{ 
       
       if(count == max-period){output$warn <- renderText({
-        "Your final selection will be locked in for 400 periods. Please select carefully."
+        "Your final selection will be locked in for 400 periods. Please select carefully. Your final choice will take
+        a few moments to process."
         
       })
       
@@ -105,11 +106,12 @@ shinyServer(function(input, output) {
       
     output$display <- DT::renderDataTable({
       
-      display <<- matrix(c(round(port.value,2),round(port.change[1],2),round(port.change[2],2)),1)
+      display <<- matrix(c(round(port.change[1],2),round(port.change[2],2),round(port.value,2)),1)
       
-      colnames(display) <<- c("Current Portfolio Value", 
+      colnames(display) <<- c(
                  "Fund A Portfolio Gain/Loss",
-                 "Fund B Portfolio Gain/Loss")
+                 "Fund B Portfolio Gain/Loss",
+                 "Current Portfolio Value")
                                                                                                
       count <<- count + period
       

@@ -2,7 +2,7 @@ shinyUI(fluidPage(
   
   titlePanel("Investment Simulator"),
   p(paste("You have been selected to receive information and change investment options every",period,"period(s).")),
-  h3(strong(textOutput("warn"))),
+  
   
   
   sidebarLayout(
@@ -25,6 +25,7 @@ shinyUI(fluidPage(
         #div(h4(strong(textOutput("loss"))),style="color:red"),
         plotOutput("graph"),
         textOutput("period"),
+        h3(strong(textOutput("warn"))),
         h3(textOutput("done"))
     )
   )
