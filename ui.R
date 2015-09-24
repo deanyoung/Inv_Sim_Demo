@@ -25,7 +25,7 @@ shinyUI(fluidPage(
         #div(h4(strong(textOutput("loss"))),style="color:red"),
         plotOutput("graph"),
         textOutput("period"),
-        h3(strong(textOutput("warn"))),
+        div(h3(strong(textOutput("warn"))),style="color:red"),
         h3(textOutput("done"))
     )
   )
