@@ -1,7 +1,6 @@
 shinyUI(fluidPage(
   
   titlePanel("Investment Simulator"),
-  p(paste("You have been selected to receive information and change investment options every",period,"period(s).")),
   
   
   
