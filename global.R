@@ -5,7 +5,7 @@ library(ggplot2)
 library(googlesheets)
 
 type <- 1
-period <- 10
+period <- 1
 count <- 0
 port.value <- 100
 real.port.value <- 100
