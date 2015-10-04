@@ -130,8 +130,8 @@ shinyServer(function(input, output) {
      ggplot(performance.data, aes(x=V1, y=V2)) + 
        geom_bar(stat="identity", aes(fill=sign)) + 
        guides(fill=FALSE) +
-       #coord_cartesian(ylim = c(-13, 13)) + 
-       coord_cartesian(ylim = c(-18, 18)) + 
+       #coord_cartesian(ylim = c(-11, 11)) + 
+       coord_cartesian(ylim = c(-16, 16)) + 
        scale_fill_manual(values = c("neg"="red","pos"="green")) +
        geom_text(aes(label=sprintf("%.2f%%",round(V2,2)), vjust=1)) +
        xlab("Fund") + ylab("% Return") + 

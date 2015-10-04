@@ -11,3 +11,5 @@
 9/21/15 - added timestamps for each user's decision to help gauge boredom
 
 9/24/15 - made changes to UI appearance from Andrew and Jon's suggestions
+
+10/3/15 - changed returns to match Thaler et. al.
