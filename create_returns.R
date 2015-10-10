@@ -2,36 +2,38 @@ library(dplyr)
 library(truncnorm)
 library(psych)
 
-set.seed(76)
-s <- rnorm(200,.0093336474,.035038751) %>% t() %>% as.data.frame() 
-b <- rtruncnorm(200,a=0,b=Inf,mean=.002495322,sd=.001765501) %>% t() %>% as.data.frame() 
-s.2 <- rnorm(400,.0093336474,.035038751) %>% t() %>% as.data.frame() 
-b.2 <- rtruncnorm(400,a=0,b=Inf,mean=.00295322,sd=.001765501) %>% t() %>% as.data.frame() 
 
+set.seed(76)
+s <- rnorm(200,1.01,.0354) %>% t() %>% as.data.frame() #stock fund 1st 200
+b <- rtruncnorm(200,a=0,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund 1st 200
+s.2 <- rnorm(400,1.01,.0354) %>% t() %>% as.data.frame() #stock fund next 400
+b.2 <- rtruncnorm(400,a=0,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund next 400
 
 
 data <- bind_rows(s,b) %>% bind_rows(s.2) %>% bind_rows(b.2)
-max(exp(s)+.05,na.rm=TRUE)
-min(exp(s),na.rm=TRUE)
-mean(t(exp(s)),na.rm=TRUE)
-sd(t(exp(s)))
-mean(t(exp(b)),na.rm=TRUE)
+max(s,na.rm=TRUE)
+min(s,na.rm=TRUE)
+mean(t(s),na.rm=TRUE)
+sd(t(s),na.rm=TRUE)
+mean(t(b),na.rm=TRUE)
+sd(t(b),na.rm=TRUE)
 
-mean(t(exp(s.2)))
-geometric.mean(t(exp(s.2)))
-geometric.mean(t(exp(b.2)))
+mean(t(s.2),na.rm=TRUE)
+sd(t(s.2),na.rm=TRUE)
+mean(t(b.2),na.rm=TRUE)
+sd(t(b.2),na.rm=TRUE)
 
-write.csv(data,"returns.csv", row.names=FALSE)
+geometric.mean(t(s.2),na.rm=TRUE)
+geometric.mean(t(b.2),na.rm=TRUE)
 
-data2 <- read.csv("returns.csv", header = FALSE)
+write.csv(data,"returns.csv", row.names=FALSE) # will have to edit out top row in excel
 
-s <- slice(data2,1)
-b <- slice(data2,2)
+# check how extreme portfolio values can be under inflated condition
 port <- 100
 for (i in 1:200){
-  si <- s[i]
+si <- s[i]
 bi <- b[i]
-port = port * max(exp(bi)+.05,exp(si)+.05)}
+port = port * max(bi+.05,si+.05)}
 
-sum(exp(t(s))<1,na.rm=TRUE)
-sum(exp(t(s))+.05<1,na.rm=TRUE)
+sum(s<1,na.rm=TRUE) # how many are losses?
+sum(s+.05<1,na.rm=TRUE) # how many are losses (inflated condition)?
