@@ -4,10 +4,10 @@ library(psych)
 
 
 set.seed(76)
-s <- rnorm(200,1.01,.0354) %>% t() %>% as.data.frame() #stock fund 1st 200
-b <- rtruncnorm(200,a=0,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund 1st 200
-s.2 <- rnorm(400,1.01,.0354) %>% t() %>% as.data.frame() #stock fund next 400
-b.2 <- rtruncnorm(400,a=0,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund next 400
+s <- rnorm(200,1.012,.045) %>% t() %>% as.data.frame() #stock fund 1st 200
+b <- rnorm(200,1.012,.045) %>% t() %>% as.data.frame() #bond fund 1st 200
+s.2 <- rnorm(400,1.012,.045) %>% t() %>% as.data.frame() #stock fund next 400
+b.2 <- rnorm(400,1.012,.045) %>% t() %>% as.data.frame() #bond fund next 400
 
 
 data <- bind_rows(s,b) %>% bind_rows(s.2) %>% bind_rows(b.2)
@@ -26,7 +26,7 @@ sd(t(b.2),na.rm=TRUE)
 geometric.mean(t(s.2),na.rm=TRUE)
 geometric.mean(t(b.2),na.rm=TRUE)
 
-write.csv(data,"returns.csv", row.names=FALSE) # will have to edit out top row in excel
+write.csv(data,"demo_returns.csv", row.names=FALSE) # will have to edit out top row in excel
 
 # check how extreme portfolio values can be under inflated condition
 port <- 100
