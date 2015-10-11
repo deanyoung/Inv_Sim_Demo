@@ -46,7 +46,7 @@ shinyServer(function(input, output) {
       final.results <<- c(input$name,input$id,type,final.choice,final.port.value) %>% append(final.decisions) %>%
                           append(time.stamp)
       final.results <<- as.matrix(t(final.results))
-      saveData(final.results)
+      #saveData(final.results)
       output$done <- renderText({
         "Congratulations, you have finished. Final results will not be available until the conclusion of all experiments."
       })
@@ -82,10 +82,10 @@ shinyServer(function(input, output) {
       s <- s.returns[i]
       b <- b.returns[i]
 
-#       port.split.new <- port.split * c(s,b)
-#       port.change <<- port.change + port.split * c(s-1,b-1)
-      port.split.new <- port.split * (c(s,b)+.05)
-      port.change <<- port.change + port.split * (c(s,b)-1+.05)
+      port.split.new <- port.split * c(s,b)
+      port.change <<- port.change + port.split * c(s-1,b-1)
+#       port.split.new <- port.split * (c(s,b)+.05)
+#       port.change <<- port.change + port.split * (c(s,b)-1+.05)
       
       real.port.split.new <- real.port.split * c(s,b)
       
@@ -94,10 +94,10 @@ shinyServer(function(input, output) {
       }
       
       
-#      s.avg <- prod(s.returns[(count+1):(count+period)])^(1/period)
-#      b.avg <- prod(b.returns[(count+1):(count+period)])^(1/period)
-     s.avg <- prod(s.returns[(count+1):(count+period)]+.05)^(1/period)
-     b.avg <- prod(b.returns[(count+1):(count+period)]+.05)^(1/period)
+     s.avg <- prod(s.returns[(count+1):(count+period)])^(1/period)
+     b.avg <- prod(b.returns[(count+1):(count+period)])^(1/period)
+#      s.avg <- prod(s.returns[(count+1):(count+period)]+.05)^(1/period)
+#      b.avg <- prod(b.returns[(count+1):(count+period)]+.05)^(1/period)
       performance.data <<- as.data.frame(matrix(c("A","B",(s.avg-1)*100, (b.avg-1)*100),2)) %>%
                                         mutate(V2 = as.numeric(as.character(V2)),sign=ifelse(V2<0,"neg","pos"))
       

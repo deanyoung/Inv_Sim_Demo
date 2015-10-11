@@ -26,7 +26,7 @@ sd(t(b.2),na.rm=TRUE)
 geometric.mean(t(s.2),na.rm=TRUE)
 geometric.mean(t(b.2),na.rm=TRUE)
 
-write.csv(data,"returns.csv", row.names=FALSE) # will have to edit out top row in excel
+write.csv(data,"demo_returns.csv", row.names=FALSE) # will have to edit out top row in excel
 
 # check how extreme portfolio values can be under inflated condition
 port <- 100
