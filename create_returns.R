@@ -5,14 +5,15 @@ library(psych)
 
 set.seed(76)
 s <- rnorm(200,1.01,.0354) %>% t() %>% as.data.frame() #stock fund 1st 200
-b <- rtruncnorm(200,a=0,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund 1st 200
+b <- rtruncnorm(200,a=1,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund 1st 200
 s.2 <- rnorm(400,1.01,.0354) %>% t() %>% as.data.frame() #stock fund next 400
-b.2 <- rtruncnorm(400,a=0,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund next 400
+b.2 <- rtruncnorm(400,a=1,b=Inf,mean=1.0025,sd=.00177) %>% t() %>% as.data.frame() #bond fund next 400
 
 
 data <- bind_rows(s,b) %>% bind_rows(s.2) %>% bind_rows(b.2)
 max(s,na.rm=TRUE)
 min(s,na.rm=TRUE)
+min(b,na.rm=TRUE)
 mean(t(s),na.rm=TRUE)
 sd(t(s),na.rm=TRUE)
 mean(t(b),na.rm=TRUE)

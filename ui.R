@@ -11,7 +11,7 @@ shinyUI(fluidPage(
     sidebarPanel(
       
       div(textOutput("selectwarn"),style="color:red"),
-      textInput("name", label = h3("Name")),
+      textInput("name", label = h3("Full Name")),
       textInput("id", label = h3("Student ID")),
       uiOutput("select2"),
       br(),
