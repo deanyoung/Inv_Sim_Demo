@@ -36,7 +36,7 @@ shinyServer(function(input, output) {
         port.split <- c(final.choice, (1-final.choice)) * final.port.value
         s <- s.final.returns[i]
         b <- b.final.returns[i]
-        port.split.new <- port.split * exp(c(s,b))
+        port.split.new <- port.split * c(s,b)
         final.port.value <<- port.split.new[1] + port.split.new[2]
       }
       
