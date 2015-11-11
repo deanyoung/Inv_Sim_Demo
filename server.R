@@ -48,7 +48,7 @@ shinyServer(function(input, output) {
       final.results <<- as.matrix(t(final.results))
       #saveData(final.results)
       output$done <- renderText({
-        "Congratulations, you have finished. Final results will not be available until the conclusion of all experiments."
+        "Congratulations, you have finished. Your reward payout will be determined when all experimental sessions have concluded. Thank you for your time."
       })
       count <<- ""
     }
@@ -73,6 +73,7 @@ shinyServer(function(input, output) {
         time.stamp <<- append(time.stamp,NA)
       }}
       
+      port.prev <<- port.value
       port.change <<- c(0,0)
       
       for(i in (count+1):(count+period)){
@@ -98,19 +99,23 @@ shinyServer(function(input, output) {
      b.avg <- prod(b.returns[(count+1):(count+period)])^(1/period)
 #      s.avg <- prod(s.returns[(count+1):(count+period)]+.05)^(1/period)
 #      b.avg <- prod(b.returns[(count+1):(count+period)]+.05)^(1/period)
-      performance.data <<- as.data.frame(matrix(c("A","B",(s.avg-1)*100, (b.avg-1)*100),2)) %>%
-                                        mutate(V2 = as.numeric(as.character(V2)),sign=ifelse(V2<0,"neg","pos"))
+     all.perf <- (port.value/port.prev)^(1/period)-1
+     
+     performance.data <<- as.data.frame(matrix(c("A","B","Your Allocation",(s.avg-1)*100, (b.avg-1)*100, 
+                                                 all.perf*100),3)) %>%
+       mutate(V2 = as.numeric(as.character(V2)),sign=ifelse(V2<0,"neg","pos"))
       
     #output$loss <- if(port.change[1]<0){ renderText({"Warning: Portfolio Loss from Allocation to Fund A"})} else{renderText({""})}
                             
       
     output$display <- DT::renderDataTable({
       
-      display <<- matrix(c(round(port.change[1],2),round(port.change[2],2),round(port.value,2)),1)
+      display <<- matrix(c(round(port.change[1],2),round(port.change[2],2),round(port.change[1]+port.change[2],2),round(port.value,2)),1)
       
       colnames(display) <<- c(
                  "Fund A Portfolio Gain/Loss",
                  "Fund B Portfolio Gain/Loss",
+                 "Total Portfolio Gain/Loss",
                  "Current Portfolio Value")
                                                                                                
       count <<- count + period
@@ -118,7 +123,7 @@ shinyServer(function(input, output) {
      
      datatable(display, options = list(dom = 't')) %>% 
        formatCurrency(c("Current Portfolio Value", "Fund A Portfolio Gain/Loss", 
-                        "Fund B Portfolio Gain/Loss"))
+                        "Fund B Portfolio Gain/Loss","Total Portfolio Gain/Loss"))
     })
     
   
@@ -135,7 +140,7 @@ shinyServer(function(input, output) {
        scale_fill_manual(values = c("neg"="red","pos"="green")) +
        geom_text(aes(label=sprintf("%.2f%%",round(V2,2)), vjust=1)) +
        xlab("Fund") + ylab("% Return") + 
-       ggtitle(paste("Average Return for Both Funds from Last",period,"Period(s)."))
+       ggtitle("Returns for Last Period")
        
    })
    
