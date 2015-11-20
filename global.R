@@ -12,7 +12,7 @@ real.port.value <- 100
 decisions <- c()
 port.change <-c(0,0)
 time.stamp <- c()
-max <- 10
+max <- 20
 
 returns.data <- read.csv("demo_returns.csv",header=FALSE)
 s.returns <- slice(returns.data,1) %>% as.matrix()
