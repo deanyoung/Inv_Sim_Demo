@@ -2,8 +2,6 @@ shinyUI(fluidPage(
   
   titlePanel("Investment Simulator"),
   
-  
-  
   sidebarLayout(
     
     

@@ -65,7 +65,7 @@ shinyServer(function(input, output) {
       
       }
      
-      decisions <<- append(decisions, as.numeric(1-input$select)) # Saves bond (Fund B) allocation
+      decisions <<- append(decisions, 1-as.numeric(input$select)) # Saves bond (Fund B) allocation
       time.stamp <<- append(time.stamp,as.character(Sys.time()))
       
       if(period > 1){for(i in 1:(period-1)){
