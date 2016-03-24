@@ -46,7 +46,7 @@ shinyServer(function(input, output) {
       final.results <<- c(input$name,input$id,type,final.choice,final.port.value) %>% append(final.decisions) %>%
                           append(time.stamp)
       final.results <<- as.matrix(t(final.results))
-      #saveData(final.results)
+      saveData(final.results)
       output$done <- renderText({
         "Congratulations, you have finished. Your reward payout will be determined when all experimental sessions have concluded. Thank you for your time."
       })
