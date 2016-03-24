@@ -1,7 +1,3 @@
-#test
-
-
-
 shinyServer(function(input, output) {
   
  output$select2 <- renderUI({
