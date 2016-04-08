@@ -24,7 +24,7 @@ shinyServer(function(input, output) {
     if(count == max){
       
       time.stamp <<- append(time.stamp,as.character(Sys.time()))
-      final.choice <<- as.numeric(input$select)
+      final.choice <<- 1-as.numeric(input$select) # Saves bond (Fund B) allocation
       final.port.value <<- real.port.value
 
       
