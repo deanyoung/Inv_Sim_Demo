@@ -1,10 +1,12 @@
 shinyUI(fluidPage(
   
-  titlePanel("Investment Simulator"),
+  titlePanel("Investment Simulator Demo"),
+  
+  helpText("Developed by Dean Young (deanyoung168@gmail.com)"),
+  helpText("Designed for undergraduate thesis research: Myopic Loss Aversion in Investment Behavior"),
+  helpText("With assistance from: Albert Kim, Rich Majerus, and Chester Ismay"),
   
   sidebarLayout(
-    
-    
     
     sidebarPanel(
       
@@ -18,8 +20,7 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-        DT::dataTableOutput("display"),
-        #div(h4(strong(textOutput("loss"))),style="color:red"),
+        dataTableOutput("display"),
         plotOutput("graph"),
         textOutput("period"),
         div(h3(strong(textOutput("warn"))),style="color:red"),
