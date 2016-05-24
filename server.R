@@ -46,7 +46,8 @@ shinyServer(function(input, output) {
                           append(time.stamp)
       final.results <<- as.matrix(t(final.results))
       
-      # send to GoogleSheet
+      # send to GoogleSheet: 
+      # https://docs.google.com/spreadsheets/d/1EXUyxXv2dRpNK03HkYah79se0J-tcNzWEA_WdSJKTGw/edit?usp=sharing
       saveData(final.results)
       
       # output completion message

@@ -2,6 +2,7 @@ library(dplyr)
 library(shiny)
 library(ggplot2)
 library(googlesheets)
+library(DT)
 
 type <- 1 # condition assignment (monthly - 1, yearly - 2, inflated monthly - 3)
 period <- 1 # elapsed periods per choice (1 for monthly and inflated monthly, 10 for yearly)
@@ -22,7 +23,6 @@ b.final.returns <- slice(returns.data,4) %>% as.matrix()
 
 #Authentication check
 gs_key("1EXUyxXv2dRpNK03HkYah79se0J-tcNzWEA_WdSJKTGw")
-
 
 saveData <- function(data) {
   sheet <- gs_key("1EXUyxXv2dRpNK03HkYah79se0J-tcNzWEA_WdSJKTGw")
