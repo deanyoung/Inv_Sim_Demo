@@ -1,8 +1,9 @@
 name: Inv_Sim_Demo
 account: youngde
 server: shinyapps.io
-bundleId: 413446
+appId: 71195
+bundleId: 461634
 url: https://youngde.shinyapps.io/Inv_Sim_Demo/
-when: 1460087880.23692
+when: 1464114570.14161
 asMultiple: FALSE
 asStatic: FALSE

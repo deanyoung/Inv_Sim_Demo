@@ -1,10 +1,12 @@
 shinyUI(fluidPage(
   
-  titlePanel("Investment Simulator Demo"),
+  titlePanel("Investment Simulator Base Version"),
   
   helpText("Developed by Dean Young (deanyoung168@gmail.com)"),
   helpText("Designed for undergraduate thesis research: Myopic Loss Aversion in Investment Behavior"),
   helpText("With assistance from: Albert Kim, Rich Majerus, and Chester Ismay"),
+  # div("Note: This demo version will not upload data to GoogleSheets. Please run locally if feature is desired.",
+  #     style="color:red"),
   
   sidebarLayout(
     
